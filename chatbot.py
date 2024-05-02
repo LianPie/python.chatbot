@@ -5,8 +5,8 @@ import string #process and handle strings
 import random #randomizes response 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-
-
+import tkinter
+import customtkinter
 
 
 #importing and reading the corpus
@@ -56,23 +56,67 @@ def response(user_response):
         return robot_response
     
 
-#main running loop
 flag= True
-print("hello! how can i help you? if you want to exit just type exit any time")
-while(flag==True):
-    user_input= input()
+
+#main running loop
+def processUserinput(user_input,sent_tokens=sent_tokens,word_tokens=word_tokens):
     user_input= user_input.lower()
     if user_input != "exit":
         if greet(user_input)!=None:
-            print("bot: "+greet(user_input))
+            botreply(greet(user_input))
         else:
             sent_tokens.append(user_input)
             word_tokens=word_tokens+nltk.word_tokenize(user_input)
             final_word= list(set(word_tokens))
-            print("bot: "+response(user_input))
+            botreply(response(user_input))
             sent_tokens.remove(user_input)
     else: 
         flag=False
-        print("goodbye, take care!")
+        botreply("goodbye, take care!")
+        app._window_exists()
+
+def senddata():
+    text= customtkinter.CTkLabel(chatarea, text="")
+    text.place(relx=0.02, rely=0.08)
+    text.configure(text="you: "+ chatentry.get())
+    processUserinput(chatentry.get())
+    print(chatentry.get())
+    chatentry.delete(0,'end')
+
+def botreply(bot):
+    res= customtkinter.CTkLabel(chatarea, text="bot: "+ bot)
+    res.place(relx=0.02, rely=0.02)
+    print(bot)
+
+#system settings
+customtkinter.set_appearance_mode("System")
+customtkinter.set_default_color_theme("blue")
+
+#frame
+app = customtkinter.CTk()
+app.geometry("720x480")
+app.title("chatbot")
+
+#elements
+title = customtkinter.CTkLabel(app, text= "start chatting!")
+title.place(relx=0.46,rely=0.01)
+
+uchat=tkinter.StringVar()
+chatentry = customtkinter.CTkEntry(app,width=590,height=40, textvariable=uchat)
+chatentry.place(relx=0.17,rely=0.91)
+
+sendbtn = customtkinter.CTkButton(app,text="send", command=senddata, width=110,height=40)
+sendbtn.place(relx=0.01,rely=0.91)
+
+user=chatentry.get()
+chatarea = customtkinter.CTkFrame(app,width=720,height=390)
+chatarea.place(rely=0.08)
+
+bot=("hello! how can i help you? if you want to exit just type exit any time")
+botreply(bot)
+app.mainloop()
+
+
+
 
 
