@@ -1,7 +1,6 @@
 import tkinter
-import customtkinter 
-
-
+import customtkinter
+ 
 def senddata():
     text= customtkinter.CTkLabel(chatarea, text="")
     text.place(relx=0.02, rely=0.02)

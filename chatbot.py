@@ -76,16 +76,13 @@ def processUserinput(user_input,sent_tokens=sent_tokens,word_tokens=word_tokens)
         app._window_exists()
 
 def senddata():
-    text= customtkinter.CTkLabel(chatarea, text="")
-    text.place(relx=0.02, rely=0.08)
-    text.configure(text="you: "+ chatentry.get())
+    text.configure(text= chatentry.get())
     processUserinput(chatentry.get())
     print(chatentry.get())
     chatentry.delete(0,'end')
 
 def botreply(bot):
-    res= customtkinter.CTkLabel(chatarea, text="bot: "+ bot)
-    res.place(relx=0.02, rely=0.02)
+    res.configure(text= bot)
     print(bot)
 
 #system settings
@@ -101,6 +98,24 @@ app.title("chatbot")
 title = customtkinter.CTkLabel(app, text= "start chatting!")
 title.place(relx=0.46,rely=0.01)
 
+
+chatarea = customtkinter.CTkFrame(app,width=720,height=200)
+chatarea.place(rely=0.08)
+resarea = customtkinter.CTkFrame(app,width=720,height=200)
+resarea.place(rely=0.5)
+texttitle= customtkinter.CTkLabel(chatarea, text="you:", font=("Courier", 30))
+texttitle.place(relx=0.02, rely=0.02)
+restitle= customtkinter.CTkLabel(resarea, text="bot:", font=("Courier", 30))
+restitle.place(relx=0.02, rely=0.02)
+
+res= customtkinter.CTkLabel(resarea,text="" )
+res.place(relx=0.02, rely=0.2)
+text= customtkinter.CTkLabel(chatarea, text="")
+text.place(relx=0.02, rely=0.2)
+
+
+
+
 uchat=tkinter.StringVar()
 chatentry = customtkinter.CTkEntry(app,width=590,height=40, textvariable=uchat)
 chatentry.place(relx=0.17,rely=0.91)
@@ -109,8 +124,6 @@ sendbtn = customtkinter.CTkButton(app,text="send", command=senddata, width=110,h
 sendbtn.place(relx=0.01,rely=0.91)
 
 user=chatentry.get()
-chatarea = customtkinter.CTkFrame(app,width=720,height=390)
-chatarea.place(rely=0.08)
 
 bot=("hello! how can i help you? if you want to exit just type exit any time")
 botreply(bot)
