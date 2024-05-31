@@ -44,7 +44,9 @@ def response(user_response):
     TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words='english')
     Tfidf = TfidfVec.fit_transform(sent_tokens)
     vals = cosine_similarity(Tfidf[-1], Tfidf)
-    idx = vals.argsort()[0][-2]
+    le= len(vals[0])
+    i= random.randint(le-5,le-1)
+    idx = vals.argsort()[0][i]
     flat = vals.flatten()
     flat.sort()
     reg_tfidf = flat[-2]
@@ -64,6 +66,7 @@ def processUserinput(user_input,sent_tokens=sent_tokens,word_tokens=word_tokens)
     if user_input != "exit":
         if greet(user_input)!=None:
             botreply(greet(user_input))
+            app.destroy()
         else:
             sent_tokens.append(user_input)
             word_tokens=word_tokens+nltk.word_tokenize(user_input)
@@ -82,8 +85,8 @@ def senddata():
     chatentry.delete(0,'end')
 
 def botreply(bot):
-    res.configure(text= bot)
     print(bot)
+    res.configure(text= bot)
 
 #system settings
 customtkinter.set_appearance_mode("System")
@@ -108,9 +111,9 @@ texttitle.place(relx=0.02, rely=0.02)
 restitle= customtkinter.CTkLabel(resarea, text="bot:", font=("Courier", 30))
 restitle.place(relx=0.02, rely=0.02)
 
-res= customtkinter.CTkLabel(resarea,text="" )
+res= customtkinter.CTkLabel(resarea,text="" , wraplength=500,justify="left")
 res.place(relx=0.02, rely=0.2)
-text= customtkinter.CTkLabel(chatarea, text="")
+text= customtkinter.CTkLabel(chatarea, text="", wraplength=500, justify="left")
 text.place(relx=0.02, rely=0.2)
 
 
@@ -125,7 +128,7 @@ sendbtn.place(relx=0.01,rely=0.91)
 
 user=chatentry.get()
 
-bot=("hello! how can i help you? if you want to exit just type exit any time")
+bot=("hello! i can give you information about cybersecurity! if you want to exit just type exit any time")
 botreply(bot)
 app.mainloop()
 
