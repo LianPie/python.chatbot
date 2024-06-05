@@ -66,7 +66,6 @@ def processUserinput(user_input,sent_tokens=sent_tokens,word_tokens=word_tokens)
     if user_input != "exit":
         if greet(user_input)!=None:
             botreply(greet(user_input))
-            app.destroy()
         else:
             sent_tokens.append(user_input)
             word_tokens=word_tokens+nltk.word_tokenize(user_input)
@@ -76,7 +75,7 @@ def processUserinput(user_input,sent_tokens=sent_tokens,word_tokens=word_tokens)
     else: 
         flag=False
         botreply("goodbye, take care!")
-        app._window_exists()
+        app.destroy()
 
 def senddata():
     text.configure(text= chatentry.get())
